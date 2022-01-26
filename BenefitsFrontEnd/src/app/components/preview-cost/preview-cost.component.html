@@ -1,0 +1,104 @@
+<div>
+  <h1>Calculate Employee Benefits Costs</h1>
+  <div class="submit-form row">
+    <div class="col-md-6 bg-primary card">
+      <form
+        novalidate
+        [formGroup]="employeeForm"
+        (ngSubmit)="onSubmit()"
+        class="card-body"
+      >
+        <div class="form-group">
+          <h2>Employee:</h2>
+          <label for="first-name">First Name: </label>
+          <input
+            class="form-control"
+            id="first-name"
+            type="text"
+            formControlName="firstName"
+          />
+
+          <label for="middle-name">Middle Name: </label>
+          <input
+            class="form-control"
+            id="middle-name"
+            type="text"
+            formControlName="middleName"
+          />
+
+          <label for="last-name">Last Name: </label>
+          <input
+            class="form-control"
+            id="last-name"
+            type="text"
+            formControlName="lastName"
+          />
+        </div>
+
+        <div formArrayName="dependents" class="form-group">
+          <h2>Dependents:</h2>
+          <button
+            (click)="addDependent()"
+            type="button"
+            class="btn-link rounded"
+          >
+            Add another dependent
+          </button>
+          <div
+            [formGroupName]="i"
+            *ngFor="let dependent of dependents.controls; let i = index"
+          >
+            <div class="form-group">
+              <label>Dependent {{ i + 1 }} First Name:</label>
+              <input
+                class="form-control"
+                id="{{ 'dependent-first-name-' + i }}"
+                type="text"
+                formControlName="depFirstName"
+              />
+              <label>Dependent {{ i + 1 }} Middle Name:</label>
+              <input
+                class="form-control"
+                id="{{ 'dependent-middle-name-' + i }}"
+                type="text"
+                formControlName="depMiddleName"
+              />
+              <label>Dependent {{ i + 1 }} Last Name:</label>
+              <input
+                class="form-control"
+                id="{{ 'dependent-last-name-' + i }}"
+                type="text"
+                formControlName="depLastName"
+              />
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn-light btn-primary rounded mb-1">
+          Submit
+        </button>
+      </form>
+    </div>
+    <div class="col-md-6 card" *ngIf="cost">
+      <div class="card-body">
+        <h2>Benefits Costs</h2>
+        <ul>
+          <li>Employee Gross Salary: {{ cost.grossSalary | currency }}</li>
+          <li>Cost per year: {{ cost.totalCostPerYear | currency }}</li>
+          <li>Employee Net Salary: {{ cost.netSalary | currency }}</li>
+          <li class="mt-2">
+            Employee Gross Pay: {{ cost.grossPay | currency }}
+          </li>
+          <li>Cost Per Pay: {{ cost.totalCostPerPay | currency }}</li>
+          <li>Employee Net Pay: {{ cost.netPay | currency }}</li>
+          <li>
+            Employee-only Cost Per Pay: {{ cost.employeeCost | currency }}
+          </li>
+          <li>
+            Dependent-only Cost Per Pay: {{ cost.dependentCost | currency }}
+          </li>
+          <li class="mt-2">Number of Dependents: {{ cost.dependentCount }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
